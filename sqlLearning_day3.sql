@@ -55,107 +55,80 @@ insert into salgrade  values(5,3001,9999);
 
 commit;
 
-SELECT empno, ename, sal
-    FROM emp;
-
-SELECT *
-    FROM emp;
-    
-SELECT emp.*, empno
-    FROM emp;
-    
-SELECT empno as 사원번호, ename as 사원이름, sal as "Salary"
-  FROM emp; 
-
 --
-// 열결 -> ||
-SELECT ename || sal
-    FROM emp;
-    
-SELECT ename || '의 월급은' || sal || '입니다 ' as 월급정보
-    FROM emp;
-    
-SELECT ename || '의 직업은' || job || '입니다 ' as 직업정보
-    from emp;
---
-// 중복제거 
-SELECT DISTINCT job
-    FROM emp;
-SELECT job
-    FROM emp;
-    
-SELECT UNIQUE job
-    FROM emp;
---    
-// 데어터 정렬
-
-SELECT ename, sal
-    FROM emp
-    ORDER BY sal asc;
-    
-SELECT ename, sal
-    FROM emp
-    ORDER BY sal desc;
-    
-SELECT ename , sal as 월급
-    FROM emp
-    ORDER BY 월급 asc;
-    
-SELECT ename , deptno, sal
-    FROM emp
-    ORDER BY deptno asc , sal desc;
---
-// 데이터 검색 where
-select ename , sal , job
+//비교 연산자 between and 하한가 상한가 순
+select ename, sal
+ from emp
+ where sal BETWEEN 1000 and 3000;
+ 
+//아래와 같음
+select ename, sal
     from emp
-    where sal = 3000;
-
-select ename as 이름, sal as 월급
+    where (sal >= 1000 and sal <= 3000);
+    
+--
+// 위의 반대
+select ename, sal
     from emp
-    where sal >= 3000;
+    where sal not between 1000 and 3000;
     
 --    
-// 문자와 날자 검색
-select ename, sal, job, hiredate, deptno
+// 아래와 같음
+select ename, sal
     from emp
-    where ename = 'SCOTT';
+    where (sal < 1000 OR sal > 3000);
     
-select ename, sal, job, hiredate, deptno
+select ename, hiredate 
     from emp
-    where hiredate = '81/11/17';
-    
-// 날자 형식 확인
-select *
-    from NLS_SESSION_PARAMETERS
-    where PARAMETER = 'NLS_DATE_FORMAT';
-    
-    // 세션에서의 파라미터를 바꿈. 현재세션에서만 유효
-    ALTER SESSION SET NLS_DATE_FORMAT = 'YY/MM/DD';
-    SELECT ename, sal
-    FROM emp
-    WHERE hiredate= '81/11/17';
-    ALTER SESSION SET NLS_DATE_FORMAT = 'RR/MM/DD';
-    SELECT ename, sal
-    FROM emp
-    WHERE hiredate= '81/11/17';
+    where hiredate between '1982/01/01' and '1982/12/31';
     
 --
-//산술연산자
-SELECT ename, sal*12 as 연봉
-    FROM emp
-    where sal*12 >= 36000;
-    
-select ename, sal, comm, sal + comm
+// 비교연산자 like
+// S로 시작하는 이름 가진 사원 출력
+select ename, sal
     from emp
-    where deptno = 10;
+    where ename like 'S%';
     
-// nvl = 널값을 두번쨰 인자 값으로 출력
-select sal + nvl(comm,1000)
+// 두번째 철자가 m 인 사원
+select ename, sal
     from emp
-    where ename= 'KING';
+    where ename like '_M%';
     
+select ename, sal
+    from emp
+    where ename like '%T';
+    
+select ename, sal
+    from emp
+    where ename like '%A%';
+    
+--    
+// 비교연산자 is null
+// null 인 경우
+Select ename, comm
+    from emp
+    where comm is null;
+// 반대
+Select ename, comm
+    from emp
+    where comm is not null;
+    
+--    
+// 비교연산자 in
+select ename, sal, job
+    from emp
+    where job in ('SALESMAN','ANALYST','MANAGER');
+    
+select ename, sal, job
+    from emp
+    where job not in ('SALESMAN','ANALYST','MANAGER');
+
 --
-// 비교연산자
-select ename, sal, job, deptno
+// 논리연산자
+select ename, sal, job
     from emp
-    where sal <= 1200;
+    where job = 'SALESMAN' and sal >= 1200;
+    
+select ename, sal, job
+    from emp
+    where job='ABCDEFG' and sal <= 1200;

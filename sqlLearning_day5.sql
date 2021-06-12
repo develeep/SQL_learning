@@ -102,3 +102,41 @@ select to_date('2019-05-01','RRRR-MM-DD') + interval '100' month
     from dual;
 select to_date('2019-05-01','RRRR-MM-DD') + interval '1-3' year(1) to month
     from dual;
+    
+--
+// 특정 날자 뒤 요일 날자 출력
+select '2019/05/22' as 날짜, next_day('2019/05/22' , '월')
+    from dual;
+    
+// 오늘날자
+select sysdate as "오늘날자"
+    from dual;
+    
+--
+// 특정 날자가 있는 달의 마지막 날자 출력
+select '2019/05/22' as 날짜, last_day('2019/05/22') as "마지막 날짜"
+    from dual;
+--    
+// 문자형으로 데이터 변형
+select ename, to_char(hiredate,'DAY') as 요일, to_char(sal,'999,999') as 월급
+    from emp
+    where ename = 'SCOTT';
+    
+select hiredate, to_char(hiredate,'RRRR') as 연도 , to_char(hiredate,'MM') as 달 , to_char(hiredate,'dd') as 일, to_char(hiredate,'day') as 요일
+    from emp
+    where ename = 'KING';
+// 1981년도 입사한 사원과 입사일
+select ename, hiredate
+    from emp
+    where to_char(hiredate,'RRRR') = 1981;
+    
+// 동일한 다른 함수
+select ename as 이름, extract(year from hiredate) as 연도,
+                     extract(month from hiredate) as 달,
+                     extract(day from hiredate) as 요일
+    from emp;
+--    
+// 날자형 데이터 유형 변환
+select ename, hiredate
+    from emp
+    where hiredate = to_date('81/11/17','RR/MM/DD');

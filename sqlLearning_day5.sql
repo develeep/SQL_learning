@@ -140,3 +140,4 @@ select ename as 이름, extract(year from hiredate) as 연도,
 select ename, hiredate
     from emp
     where hiredate = to_date('81/11/17','RR/MM/DD');
+    
